@@ -149,14 +149,14 @@ void sortMenuCategory(){
     }
 }
 
-int checkInputCategory(const char input[]){
+int checkInputCategory(char input[]){
 	if(!csize)
 		return;
 	int i=0;
 	for(;i<csize;i++)
 		if(!strcmp(input,category[i].CategoryId) || !strcmp(input,category[i].CategoryName))
-			return 0;
-	return 1;
+			return 1;
+	return 0;
 }
 
 void addCategory(){
@@ -185,9 +185,9 @@ void addCategory(){
 				printf("Your ID is too long please try again !!!\n\n");
 			else if(!empty)
 				printf("Invalid Data\n\n");
-			else if(!inputCheck)
+			else if(inputCheck)
 				printf("Please enter different input\n\n");
-		}while(strlen(s) > 10 || !empty || !inputCheck);
+		}while(strlen(s) > 10 || !empty || inputCheck);
 		
 		if(strcmp(s,"exit") == 0){
 			printf("\t...Return...\n");
@@ -208,11 +208,11 @@ void addCategory(){
 			
 			if(strlen(s) > 20)
 				printf("Your Name is too long please try again !!!\n\n");
-			else if(!inputCheck)
+			else if(inputCheck)
 				printf("Please enter different input\n\n");
 			else if(!empty)
 				printf("Invalid Data\n\n");
-		}while(strlen(s) > 20 || !empty || !inputCheck);
+		}while(strlen(s) > 20 || !empty || inputCheck);
 		
 		if(strcmp(s,"exit") == 0){
 			printf("\t...Return...\n");
@@ -905,7 +905,7 @@ void adminLogin(){
 	int check=0,characterPos=0;
 	do{
 		refresh();
-		system("color 6");
+		system("color 9");
 		printf("\t\t-+-+-+-LOGIN-+-+-+-");
 		printf("\n\n\t\t-> Username: ");
 		fgets(user,20,stdin);
