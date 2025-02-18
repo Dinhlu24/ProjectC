@@ -1,6 +1,10 @@
 #define MAX 100
 
 typedef struct{
+	int month,day,year;
+}Date;
+
+typedef struct{
     char CategoryId[10];
     char CategoryName[20];
 }Category;
@@ -15,6 +19,7 @@ typedef struct{
 	int quantity;
 	int price;
 }Product;
+
 int psize=0,maxProductPrice=-1e9; // product size,san pham co gia tien cao nhat (dung trong loc san pham)
 Product products[MAX];
 
@@ -25,3 +30,10 @@ typedef struct{
 
 int asize = 0; // account size
 Account account[MAX];
+
+typedef struct{
+	char orderID[10];
+	char customerID[20];
+	Date date;
+	Product product;
+}Order;

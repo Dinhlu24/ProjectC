@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -205,6 +206,9 @@ void addCategory(){
 			size = strlen(s);
 			empty = checkEmpty(s,size);
 			inputCheck = checkInputCategory(s);
+			
+			if(!strcmp(s,tmp))
+				inputCheck = 1;
 			
 			if(strlen(s) > 20)
 				printf("Your Name is too long please try again !!!\n\n");
@@ -455,6 +459,16 @@ void managerMenuP(){ // Products menu
     }
 }
 
+int checkInputProduct(char input[]){
+	if(!psize)
+		return;
+	int i=0;
+	for(;i<psize;i++)
+		if(!strcmp(products[i].productName,input) || !strcmp(products[i].productID,input) || !strcmp(products[i].categoryID,input))
+			return 1;
+	return 0;
+}
+
 void addProduct(){
 	printf("Enter 'exit' to return!!!\n\n");
 	Product x;
@@ -465,28 +479,28 @@ void addProduct(){
 	}
 	
 	while(psize < MAX){
-		int checkID=0,empty=0,size;
+		int checkID=0,empty=0,size,checkInput=0;
 		
 		do{
 			printf("-> Product ID (%d): ",psize+1);
 			fgets(x.productID,20,stdin);
 			x.productID[strlen(x.productID)-1] = '\0';
 			
-			checkID = categoryIdCheck(x.productID);
 			size = strlen(x.productID);
 			empty = checkEmpty(x.productID,size);
-			
+			checkInput = checkInputProduct(x.productID);
+						
 			if(strlen(x.productID) > 10)
 				printf("Your Product ID is too long please try again !!\n\n");
-			else if(checkID)
-				printf("Please try another ID, your ID is same as Category ID !!!\n\n");
+			else if(checkInput)
+				printf("Please try another input, your ID is valid in product list !!!\n\n");
 			else if(!empty)
 				printf("Invalid Data\n\n");
 			else if(!strcmp(x.productID,"exit")){
 				write_binary_file_product();
 				return;
 			}
-		}while(strlen(x.productID) > 10 || checkID || !empty);
+		}while(strlen(x.productID) > 10 || !empty || checkInput);
 		
 		do{
 			printf("-> Category ID (%d): ",psize+1);
@@ -510,23 +524,24 @@ void addProduct(){
 			fgets(x.productName,20,stdin);
 			x.productName[strlen(x.productName)-1] = '\0';
 			
-			checkID = categoryIdCheck(x.productName);
-			size = strlen(x.productID);
-			empty = checkEmpty(x.productID,size);
+			size = strlen(x.productName);
+			empty = checkEmpty(x.productName,size);
+			checkInput = checkInputProduct(x.productName);
+			
+			if(!strcmp(x.productName,x.productID))
+				checkInput = 1;
 			
 			if(strlen(x.productName) > 20)
 				printf("Your Product ID is too long please try again !!\n\n");
-			else if(!strcmp(x.productName,x.productID))
-				printf("Your Name is same as Product ID please ENTER new name !!\n\n");
-		 	else if(checkID)
-				printf("Your Name is same as Category ID please ENTER new name !!\n\n");
+			else if(checkInput)
+				printf("Please try another input, your Product Name is valid in product list !!!\n\n");
 			else if(!empty)
 				printf("Invalid Data\n\n");
 			else if(!strcmp(x.productName,"exit")){
 				write_binary_file_product();
 				return;
 			}
-		}while(strlen(x.productID) > 20 || !strcmp(x.productName,x.productID) || checkID || !empty);
+		}while(strlen(x.productName) > 20 || checkInput || !empty);
 		
 		printf("-> Product Quantity (%d): ",psize+1);
 		while(scanf("%d",&x.quantity) != 1 || x.quantity < 0){
@@ -901,9 +916,10 @@ void read_binary_file_account(){
 }
 
 void adminLogin(){
-	char user[20],pass[20],alpha;
-	int check=0,characterPos=0;
+	int check=0;
 	do{
+		char user[20],pass[20],alpha;
+		int characterPos=0;
 		refresh();
 		system("color 9");
 		printf("\t\t-+-+-+-LOGIN-+-+-+-");
@@ -945,4 +961,28 @@ int checkAccount(char user[],char pass[]){
 		if(!strcmp(user,account[i].username) && !strcmp(pass,account[i].password))
 			return 1;
 	return 0;
+}
+
+void employeeMenu(){
+	int choice;
+	while(1){
+		refresh();
+		system("color E");
+		if(!csize){
+			printf("\n\n\t\tYou have to enter the input frist !!!\n\n");
+			return;
+		}
+		printf("\n\t-=-=-=-Store Management Using C-=-=-=-\n");
+		printf("\n\t _____________________________________\n");
+		printf("\t/_____________________________________\\\n");
+		printf("\t|%37s|\n","","");
+		printf("\t|%12s%13s%12s|\n","   -------->","Employee Menu","<--------   ");
+		printf("\t|%37s|\n","","");
+		printf("\t=======================================\n");
+		printf("\t|%37s|\n","","");
+		printf("\t|%12s%10s%-5s|\n","    ~~~~~~~~~","+Updating+~~~~~~~~~","");
+		printf("\t|%37s|\n","","");
+		printf("\t=======================================\n");
+		return;
+	}
 }

@@ -23,11 +23,12 @@ int main(int argc, char *argv[]) {
         scanf("%d",&choice);
         while(getchar() != '\n');
         switch(choice){
-            case 1://Admin
+            case 1://Admin usernaem: abc, password: 123
             	adminLogin();
                 managerMenuC();
            		break;
-            case 2://Customer
+            case 2://Employee
+            	employeeMenu();
                 break;
             case 0://Thoat
                 exit(1);
